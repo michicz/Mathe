@@ -1,5 +1,4 @@
 import random
-from typing import Optional
 
 QUESTIONS_DEFAULT = 20
 
@@ -131,13 +130,30 @@ def plusminus(questions: int = QUESTIONS_DEFAULT) -> int:
     return wrong
 
 
+def mittelwert(questions: int = QUESTIONS_DEFAULT) -> int:
+    """Average tasks: present a and b and ask for average, both even or both odd."""
+    wrong = 0
+    for _ in range(questions):
+        a = random.randint(0, 1000)
+        b = 2 * random.randint(0, 500) + a%2
+        print("Mittelwert aus", a, "und", b)
+        mitte = int((a + b) / 2)
+        ergebnis = _ask_int("Ergebnis? ")
+        if ergebnis == mitte:
+            print("korrekt")
+        else:
+            print("falsch - richtig:", mitte)
+            wrong += 1
+    return wrong
+
 def main() -> None:
     print("Kopfrechentrainer 0.1")
     selection = input(
-        "Auswahl:\nEinmaleins: e, Runden auf 10: r10, Runden auf 100: r100, Quersumme: q, Division: d, Plus/Minus: p\n"
+        "Auswahl:\nEinmaleins: e, Runden auf 10: r10, Runden auf 100: r100,"
+        "Quersumme: q, Division: d, Plus/Minus: p, Mittelwert: m\n"
     ).strip().lower()
 
-    if selection not in ("e", "r10", "r100", "q", "d", "p"):
+    if selection not in ("e", "r10", "r100", "q", "d", "p", "m"):
         print("Auswahl nicht erkannt!")
         return
 
@@ -159,6 +175,9 @@ def main() -> None:
     elif selection == "p":
         print("Plus/Minus ausgewählt")
         auswertung(plusminus())
+    elif selection == "m":
+        print("Mittelwert ausgewählt")
+        auswertung(mittelwert())
 
 
 if __name__ == "__main__":
