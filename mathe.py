@@ -146,6 +146,7 @@ def mittelwert(questions: int = QUESTIONS_DEFAULT) -> int:
             wrong += 1
     return wrong
 
+
 def main() -> None:
     print("Kopfrechentrainer 0.1")
     selection = input(
