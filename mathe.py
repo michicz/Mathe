@@ -1,4 +1,5 @@
 import random
+import time
 
 QUESTIONS_DEFAULT = 20
 
@@ -94,39 +95,33 @@ def division(questions: int = QUESTIONS_DEFAULT) -> int:
 
 
 def plusminus(questions: int = QUESTIONS_DEFAULT) -> int:
-    """Random addition (if sum < 1000) otherwise subtraction.
+    """Random addition and subtraction.
     Ensures wrong is incremented for any incorrect answer.
     """
     wrong = 0
     for _ in range(questions):
+
+        # addition: a + b < 1000
         a = random.randint(1, 1000)
-        b = random.randint(1, 1000)
-        if (a + b) < 1000:
-            print(a, "+", b)
-            ergebnis = _ask_int("Ergebnis? ")
-            if ergebnis == a + b:
-                print("korrekt")
-            else:
-                print("falsch - richtig:", a + b)
-                wrong += 1
+        b = random.randint(1, 1000 - a)
+        print(a, "+", b)
+        ergebnis = _ask_int("Ergebnis? ")
+        if ergebnis == a + b:
+            print("korrekt")
         else:
-            # subtraction: present the larger minus the smaller
-            if a >= b:
-                print(a, "-", b)
-                ergebnis = _ask_int("Ergebnis? ")
-                if ergebnis == a - b:
-                    print("korrekt")
-                else:
-                    print("falsch - richtig:", a - b)
-                    wrong += 1
-            else:
-                print(b, "-", a)
-                ergebnis = _ask_int("Ergebnis? ")
-                if ergebnis == b - a:
-                    print("korrekt")
-                else:
-                    print("falsch - richtig:", b - a)
-                    wrong += 1
+            print("falsch - richtig:", a + b)
+            wrong += 1
+
+        # subtraction: a - b > 0
+        a = random.randint(1, 1000)
+        b = random.randint(1, a)
+        print(a, "-", b)
+        ergebnis = _ask_int("Ergebnis? ")
+        if ergebnis == a - b:
+            print("korrekt")
+        else:
+            print("falsch - richtig:", a - b)
+            wrong += 1
     return wrong
 
 
@@ -158,6 +153,7 @@ def main() -> None:
         print("Auswahl nicht erkannt!")
         return
 
+    start = time.time()
     if selection == "e":
         print("Einmaleins ausgewählt")
         auswertung(einmaleins())
@@ -179,7 +175,9 @@ def main() -> None:
     elif selection == "m":
         print("Mittelwert ausgewählt")
         auswertung(mittelwert())
-
+    dauer = int(time.time() - start)
+    minuten, sekunden = divmod(dauer, 60)
+    print(f"Dauer: {minuten} Minuten {sekunden} Sekunden")
 
 if __name__ == "__main__":
     main()
